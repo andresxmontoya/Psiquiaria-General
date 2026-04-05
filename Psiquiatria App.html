@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psiquiatría — Autoevaluación · Toro & Palacio 6.ª ed.</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f5ef; --bg2:#eceae2; --bg3:#dedad0;
+  --ink:#1c1a16; --ink2:#4a4740; --ink3:#948e84;
+  --ud:#003d6b; --ud2:#1a5f96; --ud3:#4a8fcc; --udl:#e8f1f9;
+  --ok:#2a5c3f; --okl:#ecf5ef;
+  --err:#7a2828; --errl:#f5eaea;
+  --warn:#8a6010; --warnl:#faf3e6;
+  --note:#5c4a1e; --notel:#fdf6e3; --noteb:#e8d9a0;
+  --br:8px; --br2:16px; --sh:0 2px 20px rgba(0,0,0,0.07);
+}
+html{font-size:16px;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.6;}
+.shell{max-width:900px;margin:0 auto;padding:0 1.5rem 4rem;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+
+/* HEADER */
+.hdr{padding:2.5rem 0 2rem;border-bottom:1px solid var(--bg3);margin-bottom:2rem;animation:fadeUp .5s ease both;}
+.hdr-badge{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ud2);border:1px solid var(--ud3);border-radius:20px;padding:.22rem .9rem;margin-bottom:1rem;}
+.hdr-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ud3);}
+.hdr h1{font-family:'Lora',serif;font-size:clamp(1.6rem,4vw,2.1rem);color:var(--ink);line-height:1.2;margin-bottom:.4rem;}
+.hdr h1 em{font-style:italic;color:var(--ud);}
+.hdr-desc{font-size:.84rem;color:var(--ink3);max-width:580px;line-height:1.7;margin-bottom:1.3rem;}
+.author-card{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;background:var(--bg2);border-radius:var(--br2);border:1px solid var(--bg3);max-width:660px;}
+.avatar{width:50px;height:50px;min-width:50px;border-radius:50%;background:var(--ud);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:.95rem;color:#fff;font-weight:600;letter-spacing:-1px;}
+.author-text p{font-size:.9rem;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.author-text small{font-size:.73rem;color:var(--ink3);line-height:1.55;}
+
+/* SCREENS */
+.screen{display:none;animation:fadeUp .35s ease both;}
+.screen.active{display:block;}
+
+/* CONFIG */
+.obj-strip{background:var(--udl);border-left:3px solid var(--ud2);border-radius:0 var(--br) var(--br) 0;padding:.9rem 1.1rem;font-size:.8rem;color:var(--ink2);line-height:1.75;margin-bottom:1.4rem;}
+.obj-strip strong{color:var(--ink);font-weight:500;}
+.obj-strip ul{padding-left:1.1rem;margin-top:.35rem;}
+.obj-strip li{margin-bottom:.18rem;}
+.cfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.1rem;}
+.cfg-block{background:var(--bg2);border:1px solid var(--bg3);border-radius:var(--br2);padding:1.1rem 1.2rem;}
+.cfg-block.span2{grid-column:1/-1;}
+.cfg-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);margin-bottom:.7rem;padding-bottom:.4rem;border-bottom:1px solid var(--bg3);}
+.n-row{display:flex;gap:.4rem;}
+.n-btn{width:40px;height:40px;border:1px solid var(--bg3);border-radius:var(--br);background:var(--bg);font-family:'Lora',serif;font-size:1rem;color:var(--ink2);cursor:pointer;transition:all .15s;}
+.n-btn:hover{border-color:var(--ud3);}
+.n-btn.on{background:var(--ud);color:#fff;border-color:var(--ud);}
+.pill-row{display:flex;flex-wrap:wrap;gap:.4rem;}
+.pill{padding:.32rem .8rem;border:1px solid var(--bg3);border-radius:20px;background:var(--bg);font-size:.79rem;color:var(--ink2);cursor:pointer;transition:all .15s;}
+.pill:hover{border-color:var(--ud3);}
+.pill.on{background:var(--ud);color:#fff;border-color:var(--ud);}
+.section-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.5rem;margin-top:.9rem;padding-bottom:.3rem;border-bottom:1px solid var(--bg3);}
+.section-title:first-child{margin-top:0;}
+.chs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.2rem;}
+.ch-btn{padding:.55rem .8rem;border:1px solid var(--bg3);border-radius:var(--br);background:var(--bg);font-size:.78rem;color:var(--ink2);cursor:pointer;transition:all .15s;text-align:left;line-height:1.35;display:flex;flex-direction:column;gap:1px;}
+.ch-btn .cn{font-size:.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;}
+.ch-btn .ct{color:var(--ink2);}
+.ch-btn:hover{border-color:var(--ud3);background:var(--bg2);}
+.ch-btn.on{background:var(--ud);border-color:var(--ud);}
+.ch-btn.on .cn{color:rgba(255,255,255,.65);}
+.ch-btn.on .ct{color:#fff;}
+.go-btn{width:100%;padding:1rem;background:var(--ud);color:#fff;border:none;border-radius:var(--br2);font-family:'Lora',serif;font-size:1.05rem;cursor:pointer;transition:all .2s;margin-top:.8rem;box-shadow:var(--sh);}
+.go-btn:hover{background:var(--ud2);transform:translateY(-1px);}
+.go-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;}
+
+/* PROGRESS */
+.prog-wrap{margin-bottom:1.8rem;}
+.prog-top{display:flex;justify-content:space-between;margin-bottom:.5rem;}
+.prog-lbl,.prog-score{font-size:.78rem;color:var(--ink3);}
+.prog-score{color:var(--ink2);font-weight:500;}
+.prog-bar{height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--ud);border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+
+/* QUIZ LAYOUT — two-column when procedure is open */
+.quiz-layout{display:grid;grid-template-columns:1fr;gap:1.2rem;transition:grid-template-columns .3s ease;}
+.quiz-layout.expanded{grid-template-columns:1fr 380px;}
+.quiz-main{}
+
+/* QUESTION */
+.q-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.1rem;gap:.8rem;}
+.q-num{font-family:'Lora',serif;font-size:1.2rem;color:var(--ink);white-space:nowrap;}
+.q-actions{display:flex;gap:.5rem;align-items:center;flex-shrink:0;}
+.icon-btn{display:flex;align-items:center;gap:.35rem;padding:.35rem .75rem;border:1px solid var(--bg3);border-radius:20px;background:var(--bg2);font-size:.75rem;color:var(--ink2);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.icon-btn:hover{border-color:var(--ud3);color:var(--ud);}
+.icon-btn.active{background:var(--udl);border-color:var(--ud3);color:var(--ud2);}
+.tags{display:flex;gap:.35rem;flex-wrap:wrap;}
+.tag{font-size:.67rem;padding:.2rem .65rem;border-radius:20px;border:1px solid var(--bg3);color:var(--ink3);background:var(--bg2);}
+.case-box{background:var(--bg2);border-radius:var(--br2);padding:1.3rem 1.5rem;margin-bottom:1.2rem;border-left:3px solid var(--ud2);box-shadow:var(--sh);}
+.case-lbl{font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ud2);font-weight:500;margin-bottom:.65rem;}
+.case-txt{font-size:.9rem;line-height:1.9;color:var(--ink2);}
+.q-stem{font-family:'Lora',serif;font-size:1rem;color:var(--ink);margin-bottom:1rem;line-height:1.45;}
+.opts{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.2rem;}
+.opt{display:flex;align-items:flex-start;gap:.75rem;padding:.85rem 1rem;border:1px solid var(--bg3);border-radius:var(--br2);cursor:pointer;transition:all .15s;background:var(--bg);}
+.opt:hover:not(.dis){border-color:var(--ud3);background:var(--bg2);}
+.opt.sel{border-color:var(--ud);background:var(--udl);}
+.opt.ok{border-color:var(--ok);background:var(--okl);}
+.opt.wrong{border-color:var(--err);background:var(--errl);}
+.opt.dis{cursor:default;}
+.opt-l{width:28px;height:28px;min-width:28px;border-radius:50%;border:1px solid var(--bg3);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:.8rem;color:var(--ink3);transition:all .15s;flex-shrink:0;}
+.opt.sel .opt-l{background:var(--ud);border-color:var(--ud);color:#fff;}
+.opt.ok .opt-l{background:var(--ok);border-color:var(--ok);color:#fff;}
+.opt.wrong .opt-l{background:var(--err);border-color:var(--err);color:#fff;}
+.opt-t{font-size:.88rem;line-height:1.5;color:var(--ink);padding-top:3px;}
+.expl{background:var(--bg2);border:1px solid var(--bg3);border-radius:var(--br2);padding:1.1rem 1.4rem;margin-bottom:1.2rem;font-size:.85rem;line-height:1.8;color:var(--ink2);animation:fadeUp .3s ease both;}
+.expl-head{font-weight:500;font-size:.88rem;margin-bottom:.55rem;}
+.c-ok{color:var(--ok);}.c-err{color:var(--err);}
+.obj-pill{display:inline-block;font-size:.67rem;padding:.18rem .7rem;border-radius:20px;background:var(--udl);color:var(--ud2);margin-top:.8rem;border:1px solid var(--ud3);}
+.btn-row{display:flex;justify-content:flex-end;gap:.7rem;}
+.btn-p{padding:.7rem 1.4rem;background:var(--ud);color:#fff;border:none;border-radius:var(--br);font-family:'Outfit',sans-serif;font-size:.87rem;cursor:pointer;transition:all .15s;box-shadow:var(--sh);}
+.btn-p:hover{background:var(--ud2);}
+.btn-p:disabled{opacity:.4;cursor:not-allowed;}
+
+/* SIDE PANEL */
+.side-panel{display:flex;flex-direction:column;gap:.8rem;animation:slideIn .3s ease both;}
+.side-panel.hidden{display:none;}
+
+/* PROCEDURE PANEL */
+.proc-panel{background:var(--bg2);border:1px solid var(--bg3);border-radius:var(--br2);overflow:hidden;box-shadow:var(--sh);}
+.proc-header{padding:.8rem 1rem;background:var(--ud);color:#fff;display:flex;align-items:center;justify-content:space-between;}
+.proc-header h3{font-family:'Lora',serif;font-size:.95rem;font-weight:500;}
+.proc-header small{font-size:.68rem;opacity:.75;}
+.proc-body{padding:1rem;font-size:.82rem;color:var(--ink2);line-height:1.8;max-height:420px;overflow-y:auto;}
+.proc-body::-webkit-scrollbar{width:4px;}
+.proc-body::-webkit-scrollbar-track{background:var(--bg3);}
+.proc-body::-webkit-scrollbar-thumb{background:var(--ud3);border-radius:2px;}
+.proc-step{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--bg3);}
+.proc-step:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.proc-step-title{font-weight:500;color:var(--ud);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;display:flex;align-items:center;gap:.4rem;}
+.proc-step-title::before{content:attr(data-n);width:20px;height:20px;border-radius:50%;background:var(--ud);color:#fff;font-size:.65rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.proc-empty{text-align:center;padding:2rem 1rem;color:var(--ink3);font-size:.82rem;line-height:1.6;}
+.proc-loading{text-align:center;padding:1.5rem;color:var(--ink3);font-size:.8rem;}
+
+/* NOTES PANEL */
+.notes-panel{background:var(--notel);border:1px solid var(--noteb);border-radius:var(--br2);overflow:hidden;box-shadow:var(--sh);}
+.notes-header{padding:.8rem 1rem;background:var(--note);color:#fff;display:flex;align-items:center;justify-content:space-between;}
+.notes-header h3{font-family:'Lora',serif;font-size:.95rem;font-weight:500;}
+.notes-header small{font-size:.68rem;opacity:.75;}
+.notes-body{padding:.8rem;}
+.notes-textarea{width:100%;min-height:160px;background:rgba(255,255,255,.7);border:1px solid var(--noteb);border-radius:var(--br);padding:.75rem .9rem;font-family:'Outfit',sans-serif;font-size:.83rem;color:var(--ink);line-height:1.6;resize:vertical;outline:none;transition:border-color .15s;}
+.notes-textarea:focus{border-color:var(--note);background:#fff;}
+.notes-meta{display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;}
+.notes-count{font-size:.68rem;color:var(--note);opacity:.7;}
+.notes-save{padding:.3rem .8rem;background:var(--note);color:#fff;border:none;border-radius:20px;font-family:'Outfit',sans-serif;font-size:.72rem;cursor:pointer;transition:opacity .15s;}
+.notes-save:hover{opacity:.85;}
+.notes-saved{font-size:.68rem;color:var(--ok);margin-top:.3rem;min-height:1rem;}
+.notes-list{margin-top:.8rem;display:flex;flex-direction:column;gap:.5rem;max-height:180px;overflow-y:auto;}
+.note-item{background:rgba(255,255,255,.8);border:1px solid var(--noteb);border-radius:var(--br);padding:.6rem .8rem;font-size:.78rem;color:var(--ink2);line-height:1.5;}
+.note-item-meta{font-size:.65rem;color:var(--note);opacity:.7;margin-bottom:.25rem;display:flex;justify-content:space-between;}
+.note-del{background:none;border:none;color:var(--err);cursor:pointer;font-size:.75rem;opacity:.6;padding:0;}
+.note-del:hover{opacity:1;}
+
+/* LOADING */
+.loading{text-align:center;padding:3.5rem 1rem;}
+.dots{display:flex;justify-content:center;gap:6px;margin-bottom:1.2rem;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ud);animation:dp 1.2s ease infinite;}
+.dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
+@keyframes dp{0%,80%,100%{opacity:.2;transform:scale(.7);}40%{opacity:1;transform:scale(1);}}
+.loading p{font-size:.85rem;color:var(--ink3);}
+
+/* RESULTS */
+.score-card{display:flex;align-items:center;gap:1.5rem;padding:1.5rem 1.8rem;background:var(--bg2);border:1px solid var(--bg3);border-radius:var(--br2);margin-bottom:1.2rem;box-shadow:var(--sh);}
+.score-ring{width:96px;height:96px;min-width:96px;border-radius:50%;border:3px solid var(--ud);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:border-color .5s;}
+.score-pct{font-family:'Lora',serif;font-size:1.9rem;color:var(--ud);line-height:1;transition:color .5s;}
+.score-sub{font-size:.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;}
+.score-info h2{font-family:'Lora',serif;font-size:1.15rem;margin-bottom:.3rem;}
+.score-info p{font-size:.82rem;color:var(--ink3);}
+.score-rec{margin-top:.8rem;font-size:.79rem;color:var(--ink2);line-height:1.6;}
+.score-rec strong{color:var(--ink);}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.2rem;}
+.stat{background:var(--bg2);border:1px solid var(--bg3);border-radius:var(--br);padding:.9rem;text-align:center;}
+.stat-val{font-family:'Lora',serif;font-size:1.5rem;}
+.stat-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-top:2px;}
+
+/* NOTES IN RESULTS */
+.result-notes{background:var(--notel);border:1px solid var(--noteb);border-radius:var(--br2);padding:1.1rem 1.3rem;margin-bottom:1.2rem;}
+.result-notes h3{font-family:'Lora',serif;font-size:.9rem;color:var(--note);margin-bottom:.7rem;}
+.result-note-item{background:#fff;border:1px solid var(--noteb);border-radius:var(--br);padding:.65rem .9rem;font-size:.8rem;color:var(--ink2);line-height:1.55;margin-bottom:.5rem;}
+.result-note-item:last-child{margin-bottom:0;}
+.result-note-q{font-size:.67rem;color:var(--note);opacity:.75;margin-bottom:.25rem;}
+
+.book-card{background:var(--bg2);border:1px solid var(--bg3);border-radius:var(--br2);padding:1.1rem 1.4rem;font-size:.8rem;color:var(--ink2);line-height:1.8;margin-bottom:1.2rem;}
+.book-card strong{display:block;font-family:'Lora',serif;font-size:.9rem;color:var(--ink);margin-bottom:.4rem;}
+.restart-btn{width:100%;padding:.95rem;background:var(--ud);color:#fff;border:none;border-radius:var(--br2);font-family:'Lora',serif;font-size:1rem;cursor:pointer;transition:all .2s;box-shadow:var(--sh);}
+.restart-btn:hover{background:var(--ud2);}
+
+@media(max-width:700px){
+  .quiz-layout.expanded{grid-template-columns:1fr;}
+  .cfg-grid{grid-template-columns:1fr;}
+  .cfg-block.span2{grid-column:1;}
+  .chs-grid{grid-template-columns:1fr;}
+  .score-card{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-badge">Fundamentos de Medicina · CIB / Ecoe Ediciones</div>
+    <h1>Autoevaluación por capítulo<br><em>Psiquiatría</em> — Toro &amp; Palacio</h1>
+    <p class="hdr-desc">
+      Cuadros clínicos, procedimiento diagnóstico completo y anotaciones personales.
+      Basada en los objetivos del libro <em>Psiquiatría</em> (6.ª ed., 2018),
+      para estudiantes de pregrado y médicos generales.
+    </p>
+    <div class="author-card">
+      <div class="avatar">AT</div>
+      <div class="author-text">
+        <p>Dr. Antonio Carlos Toro Obando &amp; Dr. Carlos Alberto Palacio Acosta</p>
+        <small>
+          Editores — <em>Psiquiatría</em> 6.ª ed. · CIB / Ecoe Ediciones, 2018<br>
+          Departamento de Psiquiatría y Ciencias del Comportamiento · Universidad de Antioquia
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIG -->
+  <div id="screen-config" class="screen active">
+    <div class="obj-strip">
+      <strong>Objetivos del libro — base de esta herramienta</strong>
+      <ul>
+        <li>Aproximar al estudiante de medicina y al médico general a los fenómenos clínicos de la salud mental</li>
+        <li>Permitir valorar conocimientos mediante cuadros clínicos y autoevaluaciones por capítulo</li>
+        <li>Proporcionar criterios diagnósticos vigentes (DSM-5-TR / CIE-11) actualizados</li>
+        <li>Ofrecer enfoque clínico desde la consulta externa y la atención en urgencias</li>
+        <li>Servir de documento de consulta sobrio, documentado y de fácil acceso</li>
+      </ul>
+    </div>
+    <div class="cfg-grid">
+      <div class="cfg-block">
+        <div class="cfg-label">Número de preguntas</div>
+        <div class="n-row">
+          <button class="n-btn" onclick="selN(1)">1</button>
+          <button class="n-btn on" onclick="selN(2)">2</button>
+          <button class="n-btn" onclick="selN(3)">3</button>
+          <button class="n-btn" onclick="selN(4)">4</button>
+          <button class="n-btn" onclick="selN(5)">5</button>
+        </div>
+      </div>
+      <div class="cfg-block">
+        <div class="cfg-label">Dificultad</div>
+        <div class="pill-row">
+          <button class="pill on" onclick="selD('Baja')">Baja</button>
+          <button class="pill" onclick="selD('Intermedia')">Intermedia</button>
+          <button class="pill" onclick="selD('Alta')">Alta</button>
+        </div>
+      </div>
+      <div class="cfg-block">
+        <div class="cfg-label">Perfil del usuario</div>
+        <div class="pill-row">
+          <button class="pill on" id="p-pre" onclick="selP('pregrado')">Estudiante de pregrado</button>
+          <button class="pill" id="p-mg" onclick="selP('medico_general')">Médico general</button>
+        </div>
+      </div>
+      <div class="cfg-block">
+        <div class="cfg-label">Tipo de pregunta</div>
+        <div class="pill-row">
+          <button class="pill on" id="t-dx" onclick="selT('diagnostico')">Diagnóstico clínico</button>
+          <button class="pill" id="t-tx" onclick="selT('tratamiento')">Tratamiento / farmacología</button>
+        </div>
+      </div>
+      <div class="cfg-block span2">
+        <div class="cfg-label">Capítulo del libro</div>
+        <div class="section-title">Fundamentos</div>
+        <div class="chs-grid">
+          <button class="ch-btn" onclick="selCh(this,'Historia de la psiquiatría')"><span class="cn">Cap. 1</span><span class="ct">Historia de la psiquiatría</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Signos y síntomas psiquiátricos')"><span class="cn">Cap. 2</span><span class="ct">Signos y síntomas psiquiátricos</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Evaluación psiquiátrica')"><span class="cn">Cap. 3</span><span class="ct">Evaluación psiquiátrica</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Clasificación psiquiátrica')"><span class="cn">Cap. 4</span><span class="ct">Clasificación psiquiátrica</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Epidemiología psiquiátrica')"><span class="cn">Cap. 5</span><span class="ct">Epidemiología psiquiátrica</span></button>
+        </div>
+        <div class="section-title">Síndromes orgánicos y por sustancias</div>
+        <div class="chs-grid">
+          <button class="ch-btn" onclick="selCh(this,'Delirium')"><span class="cn">Cap. 6</span><span class="ct">Delirium</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Demencias')"><span class="cn">Cap. 7</span><span class="ct">Demencias</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastornos por consumo de alcohol')"><span class="cn">Cap. 8</span><span class="ct">Trastornos por consumo de alcohol</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastornos por sustancias y adictivos')"><span class="cn">Cap. 9</span><span class="ct">Trastornos por sustancias y adictivos</span></button>
+        </div>
+        <div class="section-title">Psicosis</div>
+        <div class="chs-grid">
+          <button class="ch-btn" onclick="selCh(this,'Esquizofrenia')"><span class="cn">Cap. 10</span><span class="ct">Esquizofrenia</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastornos delirantes')"><span class="cn">Cap. 11</span><span class="ct">Trastornos delirantes</span></button>
+        </div>
+        <div class="section-title">Trastornos del estado de ánimo</div>
+        <div class="chs-grid">
+          <button class="ch-btn on" onclick="selCh(this,'Trastornos depresivos')"><span class="cn">Cap. 12</span><span class="ct">Trastornos depresivos</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Conducta suicida')"><span class="cn">Cap. 13</span><span class="ct">Conducta suicida</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastorno bipolar')"><span class="cn">Cap. 14</span><span class="ct">Trastorno bipolar</span></button>
+        </div>
+        <div class="section-title">Trastornos de ansiedad y relacionados</div>
+        <div class="chs-grid">
+          <button class="ch-btn" onclick="selCh(this,'Trastorno de pánico')"><span class="cn">Cap. 15</span><span class="ct">Trastorno de pánico</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastorno de ansiedad social')"><span class="cn">Cap. 16</span><span class="ct">Trastorno de ansiedad social</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Fobias específicas')"><span class="cn">Cap. 17</span><span class="ct">Fobias específicas</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastorno de ansiedad generalizada')"><span class="cn">Cap. 18</span><span class="ct">Trastorno de ansiedad generalizada</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Estrés y TEPT')"><span class="cn">Cap. 19</span><span class="ct">Estrés y TEPT</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastorno obsesivo compulsivo')"><span class="cn">Cap. 20</span><span class="ct">Trastorno obsesivo compulsivo</span></button>
+        </div>
+        <div class="section-title">Otros trastornos clínicos</div>
+        <div class="chs-grid">
+          <button class="ch-btn" onclick="selCh(this,'Trastornos de síntomas somáticos')"><span class="cn">Cap. 21</span><span class="ct">Trastornos somáticos</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Factores psicológicos en enfermedad médica')"><span class="cn">Cap. 22</span><span class="ct">Factores psicológicos en enf. médica</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastornos del comportamiento alimentario')"><span class="cn">Cap. 23</span><span class="ct">Conducta alimentaria</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastornos del sueño')"><span class="cn">Cap. 24</span><span class="ct">Trastornos del sueño</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Personalidad y sus trastornos')"><span class="cn">Cap. 25</span><span class="ct">Personalidad y sus trastornos</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Medicina sexual y psiquiatría')"><span class="cn">Cap. 26</span><span class="ct">Medicina sexual y psiquiatría</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastornos de adaptación')"><span class="cn">Cap. 27</span><span class="ct">Trastornos de adaptación</span></button>
+        </div>
+        <div class="section-title">Psiquiatría del ciclo vital</div>
+        <div class="chs-grid">
+          <button class="ch-btn" onclick="selCh(this,'Psiquiatría de niños y adolescentes')"><span class="cn">Cap. 28</span><span class="ct">Psiquiatría de niños y adolescentes</span></button>
+          <button class="ch-btn" onclick="selCh(this,'TDAH')"><span class="cn">Cap. 29</span><span class="ct">TDAH</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Trastornos del neurodesarrollo')"><span class="cn">Cap. 30</span><span class="ct">Trastornos del neurodesarrollo</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Gerontopsiquiatría')"><span class="cn">Cap. 31</span><span class="ct">Gerontopsiquiatría</span></button>
+        </div>
+        <div class="section-title">Psicofarmacología</div>
+        <div class="chs-grid">
+          <button class="ch-btn" onclick="selCh(this,'Antipsicóticos')"><span class="cn">Cap. 32</span><span class="ct">Antipsicóticos</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Antidepresivos')"><span class="cn">Cap. 33</span><span class="ct">Antidepresivos</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Estabilizadores del ánimo')"><span class="cn">Cap. 34</span><span class="ct">Estabilizadores del ánimo</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Ansiolíticos')"><span class="cn">Cap. 35</span><span class="ct">Ansiolíticos</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Otros fármacos en psiquiatría')"><span class="cn">Cap. 36</span><span class="ct">Otros fármacos en psiquiatría</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Interacciones medicamentosas')"><span class="cn">Cap. 37</span><span class="ct">Interacciones medicamentosas</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Terapia electroconvulsiva y tratamientos biológicos')"><span class="cn">Cap. 38</span><span class="ct">TEC y tratamientos biológicos</span></button>
+        </div>
+        <div class="section-title">Psicoterapia, ética y comunidad</div>
+        <div class="chs-grid">
+          <button class="ch-btn" onclick="selCh(this,'Psicoterapias')"><span class="cn">Cap. 39</span><span class="ct">Psicoterapias</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Bioética y salud mental')"><span class="cn">Cap. 40</span><span class="ct">Bioética y salud mental</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Urgencias psiquiátricas')"><span class="cn">Cap. 41</span><span class="ct">Urgencias psiquiátricas</span></button>
+          <button class="ch-btn" onclick="selCh(this,'Psiquiatría comunitaria')"><span class="cn">Cap. 42</span><span class="ct">Psiquiatría comunitaria</span></button>
+        </div>
+      </div>
+    </div>
+    <button class="go-btn" id="go-btn" onclick="startExam()">Iniciar autoevaluación</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="screen">
+    <div class="prog-wrap">
+      <div class="prog-top">
+        <span class="prog-lbl" id="prog-lbl">Pregunta 1 de 2</span>
+        <span class="prog-score" id="prog-score">0 correctas</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="quiz-layout" id="quiz-layout">
+      <div class="quiz-main" id="quiz-content"></div>
+      <div class="side-panel hidden" id="side-panel">
+        <div class="proc-panel" id="proc-panel">
+          <div class="proc-header">
+            <h3>Procedimiento clínico</h3>
+            <small>Razonamiento paso a paso</small>
+          </div>
+          <div class="proc-body" id="proc-body">
+            <div class="proc-empty">Confirma tu respuesta para ver el procedimiento diagnóstico completo.</div>
+          </div>
+        </div>
+        <div class="notes-panel">
+          <div class="notes-header">
+            <h3>Mis anotaciones</h3>
+            <small id="notes-q-ref">Pregunta actual</small>
+          </div>
+          <div class="notes-body">
+            <textarea class="notes-textarea" id="notes-input" placeholder="Escribe aquí tus observaciones, dudas o puntos clave de este caso…" oninput="countChars()"></textarea>
+            <div class="notes-meta">
+              <span class="notes-count" id="notes-count">0 caracteres</span>
+              <button class="notes-save" onclick="saveNote()">Guardar nota</button>
+            </div>
+            <div class="notes-saved" id="notes-saved"></div>
+            <div class="notes-list" id="notes-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="screen-results" class="screen">
+    <div class="score-card">
+      <div class="score-ring" id="score-ring">
+        <div class="score-pct" id="r-pct">0%</div>
+        <div class="score-sub">Score</div>
+      </div>
+      <div class="score-info">
+        <h2 id="r-title">Resultado</h2>
+        <p id="r-sub"></p>
+        <div class="score-rec" id="r-rec"></div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-val" id="r-ok" style="color:var(--ok)">0</div><div class="stat-lbl">Correctas</div></div>
+      <div class="stat"><div class="stat-val" id="r-wrong" style="color:var(--err)">0</div><div class="stat-lbl">Incorrectas</div></div>
+      <div class="stat"><div class="stat-val" id="r-total" style="color:var(--ud)">0</div><div class="stat-lbl">Total</div></div>
+    </div>
+    <div class="result-notes" id="result-notes" style="display:none">
+      <h3>Mis anotaciones de esta sesión</h3>
+      <div id="result-notes-list"></div>
+    </div>
+    <div class="book-card">
+      <strong>Referencia bibliográfica</strong>
+      Toro Obando, A. C. &amp; Palacio Acosta, C. A. (Eds.). (2018).
+      <em>Psiquiatría</em> (6.ª ed.). Medellín: Corporación para Investigaciones Biológicas (CIB) /
+      Bogotá: Ecoe Ediciones. ISBN 978-958-8843-74-2.
+    </div>
+    <button class="restart-btn" onclick="restart()">Nueva autoevaluación</button>
+  </div>
+
+</div>
+<script>
+let cfg={n:2,diff:'Baja',chapter:'Trastornos depresivos',perfil:'pregrado',tipo:'diagnostico'};
+let questions=[],curQ=0,score=0,answered=false,selOpt=null;
+let sessionNotes=[];
+let panelOpen=false;
+let procCache={};
+
+function selN(v){cfg.n=v;document.querySelectorAll('.n-btn').forEach(b=>b.classList.remove('on'));event.target.classList.add('on');}
+function selD(v){cfg.diff=v;document.querySelectorAll('.pill:not(#p-pre):not(#p-mg):not(#t-dx):not(#t-tx)').forEach(b=>b.classList.remove('on'));event.target.classList.add('on');}
+function selP(v){cfg.perfil=v;document.getElementById('p-pre').classList.toggle('on',v==='pregrado');document.getElementById('p-mg').classList.toggle('on',v==='medico_general');}
+function selT(v){cfg.tipo=v;document.getElementById('t-dx').classList.toggle('on',v==='diagnostico');document.getElementById('t-tx').classList.toggle('on',v==='tratamiento');}
+function selCh(el,v){cfg.chapter=v;document.querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const el=document.getElementById('screen-'+id);el.classList.add('active');el.style.animation='none';el.offsetHeight;el.style.animation='';}
+
+async function startExam(){
+  document.getElementById('go-btn').disabled=true;
+  questions=[];curQ=0;score=0;answered=false;selOpt=null;
+  sessionNotes=[];procCache={};panelOpen=false;
+  document.getElementById('side-panel').classList.add('hidden');
+  document.getElementById('quiz-layout').classList.remove('expanded');
+  show('quiz');await genQ();
+}
+
+function updateProg(){
+  const pct=Math.round((curQ/cfg.n)*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=`Pregunta ${curQ+1} de ${cfg.n}`;
+  document.getElementById('prog-score').textContent=`${score} correcta${score!==1?'s':''}`;
+}
+
+async function genQ(){
+  updateProg();
+  document.getElementById('quiz-content').innerHTML=`<div class="loading"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><p>Generando pregunta ${curQ+1} de ${cfg.n}…</p></div>`;
+  // reset procedure panel
+  document.getElementById('proc-body').innerHTML='<div class="proc-empty">Confirma tu respuesta para ver el procedimiento diagnóstico completo.</div>';
+
+  const perfilText=cfg.perfil==='pregrado'?'medical student (estudiante de pregrado de medicina, Colombia)':'general practitioner (médico general, Colombia)';
+  const diffText={Baja:'LOW — basic, typical textbook case, clear diagnosis or first-line treatment',Intermedia:'INTERMEDIATE — moderate complexity, some symptom overlap or comorbidity',Alta:'HIGH — nuanced reasoning, atypical presentation, closely related diagnoses or subtle pharmacological distinctions'};
+  const stemText=cfg.tipo==='diagnostico'?'¿Cuál es el diagnóstico más probable?':'¿Cuál es la conducta terapéutica más apropiada?';
+  const tipoInstruction=cfg.tipo==='diagnostico'
+    ?'The question must ask for the MOST LIKELY DIAGNOSIS.'
+    :'The question must ask about TREATMENT or PHARMACOLOGY: drug of choice, mechanism, side effects, or drug interaction.';
+
+  const prompt=`You are building a self-assessment question bank based on the textbook "Psiquiatría" (6th ed., Toro Obando & Palacio Acosta, CIB/Ecoe 2018, Colombia).
+
+CHAPTER: ${cfg.chapter}
+USER PROFILE: ${perfilText}
+DIFFICULTY: ${diffText[cfg.diff]}
+QUESTION TYPE: ${tipoInstruction}
+LANGUAGE: Spanish. Colombian clinical context.
+
+Generate ONE clinical vignette question. Return ONLY this JSON (no markdown):
+{
+  "case": "Single narrative paragraph as clinical vignette. Include: patient details (gender/age), presenting complaint, relevant history, time of onset, psychopathological or relevant clinical findings.",
+  "stem": "${stemText}",
+  "options":[
+    {"letter":"A","text":"..."},
+    {"letter":"B","text":"..."},
+    {"letter":"C","text":"..."},
+    {"letter":"D","text":"..."},
+    {"letter":"E","text":"..."}
+  ],
+  "correct":"A",
+  "explanation":"La respuesta correcta es A porque... [DSM-5-TR/ICD-11 criteria or pharmacological rationale]. Explain briefly why B, C, D, E are incorrect.",
+  "procedure": {
+    "step1_anamnesis": "Key elements from the anamnesis that orient the diagnosis or treatment decision in this case.",
+    "step2_psicopatologia": "Relevant psychopathological findings or clinical signs identified in the case and their significance.",
+    "step3_diagnostico_diferencial": "Main differential diagnoses considered and why each is accepted or discarded.",
+    "step4_criterios": "Specific DSM-5-TR or ICD-11 criteria met by the correct diagnosis (or pharmacological rationale for treatment questions).",
+    "step5_conclusion": "Final clinical reasoning: why this diagnosis/treatment is the most appropriate and what to monitor or do next."
+  },
+  "learning_objective": "One sentence: what specific knowledge from this chapter does this question evaluate."
+}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2200,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const raw=data.content.find(b=>b.type==='text')?.text||'';
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const q=JSON.parse(clean);
+    questions.push(q);
+    renderQ(q);
+  }catch(e){
+    document.getElementById('quiz-content').innerHTML=`<div class="loading"><p style="color:var(--err);margin-bottom:1rem">Error al generar la pregunta. Verifica tu conexión.</p><button class="btn-p" onclick="genQ()">Reintentar</button></div>`;
+  }
+}
+
+function renderQ(q){
+  answered=false;selOpt=null;
+  updateNotesPanel();
+
+  const tags=`<div class="tags">
+    <span class="tag">${cfg.chapter.length>28?cfg.chapter.substring(0,28)+'…':cfg.chapter}</span>
+    <span class="tag">${cfg.diff}</span>
+    <span class="tag">${cfg.tipo==='diagnostico'?'Diagnóstico':'Tratamiento'}</span>
+  </div>`;
+
+  const procBtnState=panelOpen?'active':'';
+
+  document.getElementById('quiz-content').innerHTML=`
+    <div class="q-head">
+      <div class="q-num">Pregunta ${curQ+1}</div>
+      <div class="q-actions">
+        ${tags}
+        <button class="icon-btn ${procBtnState}" id="proc-btn" onclick="togglePanel()" title="Ver procedimiento diagnóstico">
+          &#9654; Procedimiento
+        </button>
+        <button class="icon-btn" id="note-btn" onclick="focusNote()" title="Hacer anotación">
+          &#9998; Anotar
+        </button>
+      </div>
+    </div>
+    <div class="case-box">
+      <div class="case-lbl">Caso clínico — Psiquiatría, Toro &amp; Palacio 6.ª ed.</div>
+      <div class="case-txt">${q.case}</div>
+    </div>
+    <div class="q-stem">${q.stem}</div>
+    <div class="opts" id="opts">
+      ${q.options.map(o=>`<div class="opt" id="opt-${o.letter}" onclick="pickOpt('${o.letter}')"><div class="opt-l">${o.letter}</div><div class="opt-t">${o.text}</div></div>`).join('')}
+    </div>
+    <div id="expl-box"></div>
+    <div class="btn-row"><button class="btn-p" id="confirm-btn" onclick="confirmAnswer()" disabled>Confirmar respuesta</button></div>`;
+}
+
+function togglePanel(){
+  panelOpen=!panelOpen;
+  const panel=document.getElementById('side-panel');
+  const layout=document.getElementById('quiz-layout');
+  const btn=document.getElementById('proc-btn');
+  if(panelOpen){
+    panel.classList.remove('hidden');
+    layout.classList.add('expanded');
+    if(btn)btn.classList.add('active');
+    updateNotesPanel();
+  } else {
+    panel.classList.add('hidden');
+    layout.classList.remove('expanded');
+    if(btn)btn.classList.remove('active');
+  }
+}
+
+function focusNote(){
+  if(!panelOpen)togglePanel();
+  setTimeout(()=>{document.getElementById('notes-input').focus();},200);
+}
+
+function updateNotesPanel(){
+  const ref=`Pregunta ${curQ+1} — ${cfg.chapter}`;
+  const el=document.getElementById('notes-q-ref');
+  if(el)el.textContent=ref;
+  const inp=document.getElementById('notes-input');
+  if(inp)inp.value='';
+  const saved=document.getElementById('notes-saved');
+  if(saved)saved.textContent='';
+  renderNotesList();
+}
+
+function countChars(){
+  const v=document.getElementById('notes-input').value;
+  document.getElementById('notes-count').textContent=v.length+' caracteres';
+}
+
+function saveNote(){
+  const txt=document.getElementById('notes-input').value.trim();
+  if(!txt)return;
+  const note={
+    q:curQ+1,
+    chapter:cfg.chapter,
+    text:txt,
+    time:new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'})
+  };
+  sessionNotes.push(note);
+  document.getElementById('notes-input').value='';
+  document.getElementById('notes-count').textContent='0 caracteres';
+  document.getElementById('notes-saved').textContent='✓ Nota guardada';
+  setTimeout(()=>{const s=document.getElementById('notes-saved');if(s)s.textContent='';},2000);
+  renderNotesList();
+}
+
+function deleteNote(idx){
+  sessionNotes.splice(idx,1);
+  renderNotesList();
+}
+
+function renderNotesList(){
+  const list=document.getElementById('notes-list');
+  if(!list)return;
+  const relevant=sessionNotes.filter(n=>n.q===curQ+1);
+  if(relevant.length===0){list.innerHTML='';return;}
+  list.innerHTML=relevant.map((n,i)=>{
+    const realIdx=sessionNotes.indexOf(n);
+    return `<div class="note-item">
+      <div class="note-item-meta"><span>Pregunta ${n.q} · ${n.time}</span><button class="note-del" onclick="deleteNote(${realIdx})">✕</button></div>
+      ${n.text}
+    </div>`;
+  }).join('');
+}
+
+function showProcedure(q){
+  const p=q.procedure;
+  if(!p){document.getElementById('proc-body').innerHTML='<div class="proc-empty">Procedimiento no disponible para esta pregunta.</div>';return;}
+  const steps=[
+    {n:'1',title:'Anamnesis',content:p.step1_anamnesis},
+    {n:'2',title:'Psicopatología',content:p.step2_psicopatologia},
+    {n:'3',title:'Diagnóstico diferencial',content:p.step3_diagnostico_diferencial},
+    {n:'4',title:'Criterios diagnósticos',content:p.step4_criterios},
+    {n:'5',title:'Conclusión clínica',content:p.step5_conclusion}
+  ];
+  document.getElementById('proc-body').innerHTML=steps.map(s=>`
+    <div class="proc-step">
+      <div class="proc-step-title" data-n="${s.n}">${s.title}</div>
+      <div>${s.content}</div>
+    </div>`).join('');
+}
+
+function pickOpt(l){
+  if(answered)return;
+  selOpt=l;
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  document.getElementById('opt-'+l).classList.add('sel');
+  document.getElementById('confirm-btn').disabled=false;
+}
+
+function confirmAnswer(){
+  if(!selOpt||answered)return;
+  answered=true;
+  const q=questions[curQ];
+  const correct=q.correct;
+  const isOk=selOpt===correct;
+  if(isOk)score++;
+
+  document.querySelectorAll('.opt').forEach(o=>{
+    const l=o.id.replace('opt-','');
+    o.classList.add('dis');
+    if(l===correct)o.classList.add('ok');
+    else if(l===selOpt)o.classList.add('wrong');
+  });
+
+  document.getElementById('expl-box').innerHTML=`
+    <div class="expl">
+      <div class="expl-head ${isOk?'c-ok':'c-err'}">${isOk?'✓ Correcto':'✗ Incorrecto'} — Respuesta correcta: ${correct}</div>
+      ${q.explanation}
+      ${q.learning_objective?`<div class="obj-pill">Objetivo: ${q.learning_objective}</div>`:''}
+    </div>`;
+
+  // auto-open panel and show procedure after confirming
+  if(!panelOpen)togglePanel();
+  showProcedure(q);
+
+  const isLast=curQ===cfg.n-1;
+  document.getElementById('confirm-btn').outerHTML=`<button class="btn-p" onclick="${isLast?'showResults()':'nextQ()'}">${isLast?'Ver resultados':'Siguiente →'}</button>`;
+  selOpt=null;
+  document.getElementById('prog-score').textContent=`${score} correcta${score!==1?'s':''}`;
+}
+
+async function nextQ(){
+  curQ++;
+  panelOpen=false;
+  document.getElementById('side-panel').classList.add('hidden');
+  document.getElementById('quiz-layout').classList.remove('expanded');
+  await genQ();
+}
+
+function showResults(){
+  curQ++;
+  const pct=Math.round((score/cfg.n)*100);
+  const title=pct>=80?'Dominio sólido del capítulo':pct>=60?'Conocimiento suficiente — refuerza los puntos débiles':'Requiere repaso del capítulo';
+  const rec=pct>=80
+    ?'<strong>Siguiente paso:</strong> avanza al siguiente capítulo o aumenta la dificultad.'
+    :pct>=60
+      ?'<strong>Recomendación:</strong> revisa los criterios diagnósticos del capítulo y repite en dificultad intermedia.'
+      :'<strong>Recomendación:</strong> vuelve al capítulo del libro, repasa los cuadros clínicos y las autoevaluaciones antes de continuar.';
+
+  document.getElementById('r-pct').textContent=pct+'%';
+  document.getElementById('r-title').textContent=title;
+  document.getElementById('r-sub').textContent=cfg.chapter+' · '+cfg.diff+' · '+(cfg.perfil==='pregrado'?'Pregrado':'Médico general');
+  document.getElementById('r-rec').innerHTML=rec;
+  document.getElementById('r-ok').textContent=score;
+  document.getElementById('r-wrong').textContent=cfg.n-score;
+  document.getElementById('r-total').textContent=cfg.n;
+
+  const ring=document.getElementById('score-ring');
+  const rpct=document.getElementById('r-pct');
+  if(pct>=80){ring.style.borderColor='var(--ok)';rpct.style.color='var(--ok)';}
+  else if(pct>=60){ring.style.borderColor='var(--warn)';rpct.style.color='var(--warn)';}
+  else{ring.style.borderColor='var(--err)';rpct.style.color='var(--err)';}
+
+  // show session notes in results
+  if(sessionNotes.length>0){
+    document.getElementById('result-notes').style.display='block';
+    document.getElementById('result-notes-list').innerHTML=sessionNotes.map(n=>`
+      <div class="result-note-item">
+        <div class="result-note-q">Pregunta ${n.q} — ${n.chapter} · ${n.time}</div>
+        ${n.text}
+      </div>`).join('');
+  }
+
+  show('results');
+}
+
+function restart(){
+  document.getElementById('go-btn').disabled=false;
+  panelOpen=false;
+  show('config');
+}
+</script>
+</body>
+</html>
